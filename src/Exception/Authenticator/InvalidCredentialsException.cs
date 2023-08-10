@@ -1,5 +1,5 @@
 
-namespace Sdkgen.Client.Exception;
+namespace Sdkgen.Client.Exception.Authenticator;
 
 public class InvalidCredentialsException : System.Exception
 {
