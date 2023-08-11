@@ -2,20 +2,27 @@ using RestSharp;
 
 namespace Sdkgen.Client.Authenticator;
 
-public class OAuth2Authenticator : AuthenticatorInterface 
+public class OAuth2Authenticator : IAuthenticator
 {
     private const int EXPIRE_THRESHOLD = 60 * 10;
 
-    private Credentials.OAuth2 credentials;
+    private readonly Credentials.OAuth2 _credentials;
 
-    public OAuth2Authenticator(Credentials.OAuth2 credentials) {
-        this.credentials = credentials;
+    public OAuth2Authenticator(Credentials.OAuth2 credentials)
+    {
+        this._credentials = credentials;
     }
-    
+
     public ValueTask Authenticate(RestClient client, RestRequest request)
     {
+        return new ValueTask(Task.FromResult(new HeaderParameter("Authorization", "Bearer " + this.GetAccessToken())));
     }
-    
+
+    private string GetAccessToken()
+    {
+        return "";
+    }
+
     /*
     public string buildRedirectUrl(string? redirectUrl, List<String>? scopes, string? state)
     {
@@ -139,5 +146,4 @@ public class OAuth2Authenticator : AuthenticatorInterface
         return accessToken.Token;
     }
     */
-
 }

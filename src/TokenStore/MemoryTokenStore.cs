@@ -1,19 +1,21 @@
-
 namespace Sdkgen.Client.TokenStore;
 
-public class MemoryTokenStore : TokenStoreInterface 
+public class MemoryTokenStore : ITokenStore
 {
-    private AccessToken? token;
-    public AccessToken? get()
+    private AccessToken? _token;
+
+    public AccessToken? Get()
     {
-        return this.token;
+        return this._token;
     }
-    public void persist(AccessToken token)
+
+    public void Persist(AccessToken token)
     {
-        this.token = token;
+        this._token = token;
     }
-    public void remove()
+
+    public void Remove()
     {
-        this.token = null;
+        this._token = null;
     }
 }

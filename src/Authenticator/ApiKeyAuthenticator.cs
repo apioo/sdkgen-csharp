@@ -2,16 +2,17 @@ using RestSharp;
 
 namespace Sdkgen.Client.Authenticator;
 
-public class ApiKeyAuthenticator : AuthenticatorInterface 
+public class ApiKeyAuthenticator : IAuthenticator
 {
-    private Credentials.ApiKey credentials;
+    private readonly Credentials.ApiKey _credentials;
 
-    public ApiKeyAuthenticator(Credentials.ApiKey credentials) {
-        this.credentials = credentials;
+    public ApiKeyAuthenticator(Credentials.ApiKey credentials)
+    {
+        this._credentials = credentials;
     }
-    
+
     public ValueTask Authenticate(RestClient client, RestRequest request)
     {
-        request.AddHeader(this.credentials.Name, this.credentials.Token);
+        return new ValueTask(Task.FromResult(new HeaderParameter(this._credentials.Name, this._credentials.Token)));
     }
 }

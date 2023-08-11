@@ -1,19 +1,36 @@
+using System.Text.Json;
 
 namespace Sdkgen.Client.TokenStore;
 
-public class FileTokenStore : TokenStoreInterface
+public class FileTokenStore : ITokenStore
 {
-    private AccessToken? token;
-    public AccessToken? get()
+    private readonly string? _cacheDir;
+    private readonly string? _fileName;
+
+    public FileTokenStore(string? cacheDir, string? fileName = "sdkgen_access_token")
     {
-        return this.token;
+        this._cacheDir = cacheDir;
+        this._fileName = fileName;
     }
-    public void persist(AccessToken token)
+
+    public AccessToken? Get()
     {
-        this.token = token;
+        var json = File.ReadAllText(this.GetFileName());
+        return JsonSerializer.Deserialize<AccessToken>(json);
     }
-    public void remove()
+
+    public void Persist(AccessToken token)
     {
-        this.token = null;
+        File.WriteAllText(this.GetFileName(), JsonSerializer.Serialize(token));
+    }
+
+    public void Remove()
+    {
+        File.Delete(this.GetFileName());
+    }
+
+    private string GetFileName()
+    {
+        return this._cacheDir + "/" + this._fileName + ".json";
     }
 }

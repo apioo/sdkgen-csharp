@@ -1,6 +1,5 @@
-
 namespace Sdkgen.Client.Credentials;
 
-public class Anonymous : CredentialsInterface 
+public class Anonymous : ICredentials
 {
 }
