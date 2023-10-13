@@ -1,3 +1,6 @@
+using System.Transactions;
+using RestSharp;
+
 namespace Sdkgen.Client;
 
 public class Parser
@@ -14,10 +17,8 @@ public class Parser
         return this._baseUrl + "/" + this.SubstituteParameters(path, parameters);
     }
 
-    public Dictionary<string, string> Query(Dictionary<string, Object> parameters)
+    public void Query(RestRequest request, Dictionary<string, Object> parameters)
     {
-        Dictionary<string, string> result = new Dictionary<string, string>();
-
         foreach (KeyValuePair<string, Object> entry in parameters)
         {
             if (entry.Value == null)
@@ -25,15 +26,8 @@ public class Parser
                 continue;
             }
 
-            result.Add(entry.Key, this.ToString(entry.Value));
+            request.AddParameter(entry.Key, this.ToString(entry.Value));
         }
-
-        return result;
-    }
-
-    public Object Parse(string data, string className)
-    {
-        return null;
     }
 
     private string SubstituteParameters(string path, Dictionary<string, Object> parameters)
@@ -43,6 +37,37 @@ public class Parser
 
     private string ToString(Object value)
     {
-        return "";
+        if (value is string)
+        {
+            return value.ToString();
+        }
+        else if (value is float || value is double)
+        {
+            return value.ToString();
+        }
+        else if (value is int)
+        {
+            return value.ToString();
+        }
+        else if (value is bool)
+        {
+            return value.Equals(true) ? "1" : "0";
+        }
+        else if (value is DateOnly)
+        {
+            return ((DateOnly)value).ToString("yyyy-MM-dd");
+        }
+        else if (value is DateTime)
+        {
+            return ((DateTime)value).ToString("O");
+        }
+        else if (value is TimeOnly)
+        {
+            return ((TimeOnly)value).ToString("HH:mm:ss");
+        }
+        else
+        {
+            return "";
+        }
     }
 }
