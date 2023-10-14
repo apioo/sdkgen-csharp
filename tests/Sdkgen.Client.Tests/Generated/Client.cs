@@ -4,11 +4,11 @@
  */
 
 
+using System.Collections.Generic;
 using RestSharp;
 using Sdkgen.Client;
 using Sdkgen.Client.Credentials;
 using Sdkgen.Client.Exception;
-using Sdkgen.Client.ICredentials
 
 namespace Sdkgen.Client.Tests.Generated;
 

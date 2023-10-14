@@ -4,6 +4,7 @@
  */
 
 
+using System.Collections.Generic;
 using RestSharp;
 using Sdkgen.Client;
 using Sdkgen.Client.Exception;
@@ -46,7 +47,7 @@ public class ProductTag : TagAbstract {
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             throw new ClientException("An unknown error occurred: " + e.Message, e);
         }
@@ -80,7 +81,7 @@ public class ProductTag : TagAbstract {
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             throw new ClientException("An unknown error occurred: " + e.Message, e);
         }
@@ -115,7 +116,7 @@ public class ProductTag : TagAbstract {
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             throw new ClientException("An unknown error occurred: " + e.Message, e);
         }
@@ -150,7 +151,7 @@ public class ProductTag : TagAbstract {
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             throw new ClientException("An unknown error occurred: " + e.Message, e);
         }
@@ -184,7 +185,7 @@ public class ProductTag : TagAbstract {
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             throw new ClientException("An unknown error occurred: " + e.Message, e);
         }
