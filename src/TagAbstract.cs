@@ -1,13 +1,13 @@
-namespace Sdkgen.Client;
+using RestSharp;
 
-using System.Net.Http;
+namespace Sdkgen.Client;
 
 abstract public class TagAbstract
 {
-    protected readonly HttpClient HttpClient;
+    protected readonly RestClient HttpClient;
     protected readonly Parser Parser;
 
-    public TagAbstract(HttpClient httpClient, Parser parser)
+    public TagAbstract(RestClient httpClient, Parser parser)
     {
         this.HttpClient = httpClient;
         this.Parser = parser;

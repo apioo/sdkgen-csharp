@@ -9,7 +9,6 @@
     <RepositoryUrl>https://github.com/apioo/sdkgen-csharp</RepositoryUrl>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RepoRoot>./src</RepoRoot>
     <AssemblyName>sdkgen</AssemblyName>
     <RootNamespace>Sdkgen.Client</RootNamespace>
     <Copyright>Christoph Kappestein</Copyright>
