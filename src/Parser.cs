@@ -1,5 +1,7 @@
+using System.Text.Json;
 using System.Transactions;
 using RestSharp;
+using Sdkgen.Client.Exception;
 
 namespace Sdkgen.Client;
 
@@ -27,6 +29,29 @@ public class Parser
             }
 
             request.AddParameter(entry.Key, this.ToString(entry.Value));
+        }
+    }
+
+    public T Parse<T>(string? payload)
+    {
+        try
+        {
+            if (payload == null)
+            {
+                throw new ParserException("The provided JSON data is invalid");
+            }
+
+            T? val = JsonSerializer.Deserialize<T>(payload);
+            if (val == null)
+            {
+                throw new ParserException("The provided JSON data is invalid");
+            }
+
+            return val;
+        }
+        catch (JsonException e)
+        {
+            throw new ParserException("The provided JSON data is invalid: " + e.Message, e);
         }
     }
 
