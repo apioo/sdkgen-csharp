@@ -1,5 +1,4 @@
 using System.Text.Json;
-using System.Transactions;
 using RestSharp;
 using Sdkgen.Client.Exception;
 
@@ -14,14 +13,14 @@ public class Parser
         this._baseUrl = baseUrl;
     }
 
-    public string Url(string path, Dictionary<string, Object> parameters)
+    public string Url(string path, IReadOnlyDictionary<string, object> parameters)
     {
         return this._baseUrl + "/" + this.SubstituteParameters(path, parameters);
     }
 
-    public void Query(RestRequest request, Dictionary<string, Object> parameters)
+    public void Query(RestRequest request, IReadOnlyDictionary<string, object> parameters)
     {
-        foreach (KeyValuePair<string, Object> entry in parameters)
+        foreach (KeyValuePair<string, object> entry in parameters)
         {
             if (entry.Value == null)
             {
@@ -55,12 +54,47 @@ public class Parser
         }
     }
 
-    private string SubstituteParameters(string path, Dictionary<string, Object> parameters)
+    private string SubstituteParameters(string path, IReadOnlyDictionary<string, object> parameters)
     {
-        return "";
+        string[] parts = path.Split("/");
+        List<string> result = new List<string>();
+
+        foreach (string part in parts)
+        {
+            if (String.IsNullOrEmpty(part))
+            {
+                continue;
+            }
+
+            string? name = null;
+            if (part.StartsWith(":"))
+            {
+                name = part.Substring(1);
+            }
+            else if (part.StartsWith("$"))
+            {
+                int pos = part.IndexOf("<");
+                name = pos != -1 ? part.Substring(1, pos) : part.Substring(1);
+            }
+            else if (part.StartsWith("{") && part.EndsWith("}"))
+            {
+                name = part.Substring(1, part.Length - 1);
+            }
+
+            if (name != null && parameters.ContainsKey(name))
+            {
+                result.Add(this.ToString(parameters[name]));
+            }
+            else
+            {
+                result.Add(part);
+            }
+        }
+
+        return string.Join("/", result);
     }
 
-    private string ToString(Object value)
+    private string ToString(object value)
     {
         if (value is string)
         {
