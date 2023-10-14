@@ -32,17 +32,22 @@ public class OAuth2Authenticator : IAuthenticator
         builder.Add("response_type", "code");
         builder.Add("client_id", this._credentials.ClientId);
 
-        if (!String.IsNullOrEmpty(redirectUrl)) {
+        if (!String.IsNullOrEmpty(redirectUrl))
+        {
             builder.Add("redirect_uri", redirectUrl);
         }
 
-        if (scopes != null && scopes.Count > 0) {
+        if (scopes != null && scopes.Count > 0)
+        {
             builder.Add("scope", String.Join(",", scopes));
-        } else if (this._scopes != null && this._scopes.Count > 0) {
+        }
+        else if (this._scopes != null && this._scopes.Count > 0)
+        {
             builder.Add("scope", String.Join(",", this._scopes));
         }
 
-        if (!String.IsNullOrEmpty(state)) {
+        if (!String.IsNullOrEmpty(state))
+        {
             builder.Add("state", state);
         }
 
@@ -52,7 +57,7 @@ public class OAuth2Authenticator : IAuthenticator
         return uri.ToString();
     }
 
-    protected async Task<AccessToken> FetchAccessTokenByCode(string code)
+    protected AccessToken FetchAccessTokenByCode(string code)
     {
         HttpBasic auth = new HttpBasic(this._credentials.ClientId, this._credentials.ClientSecret);
 
@@ -63,14 +68,15 @@ public class OAuth2Authenticator : IAuthenticator
         return this.Request(auth, request);
     }
 
-    protected async Task<AccessToken> FetchAccessTokenByClientCredentials()
+    protected AccessToken FetchAccessTokenByClientCredentials()
     {
         HttpBasic auth = new HttpBasic(this._credentials.ClientId, this._credentials.ClientSecret);
 
         RestRequest request = new RestRequest(this._credentials.TokenUrl, Method.Post);
         request.AddParameter("grant_type", "client_credentials", ParameterType.RequestBody);
 
-        if (this._scopes != null && this._scopes.Count() > 0) {
+        if (this._scopes != null && this._scopes.Count() > 0)
+        {
             request.AddParameter("scope", String.Join(",", this._scopes), ParameterType.RequestBody);
         }
 
@@ -84,7 +90,7 @@ public class OAuth2Authenticator : IAuthenticator
         RestRequest request = new RestRequest(this._credentials.TokenUrl, Method.Post);
         request.AddParameter("grant_type", "refresh_token", ParameterType.RequestBody);
         request.AddParameter("refresh_token", refreshToken, ParameterType.RequestBody);
-        
+
         return this.Request(auth, request);
     }
 
@@ -93,41 +99,50 @@ public class OAuth2Authenticator : IAuthenticator
         long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
 
         AccessToken? accessToken = this._tokenStore.Get();
-        if ((accessToken == null || accessToken.ExpiresIn < timestamp)) {
-            accessToken = await this.FetchAccessTokenByClientCredentials();
+        if ((accessToken == null || accessToken.ExpiresIn < timestamp))
+        {
+            accessToken = this.FetchAccessTokenByClientCredentials();
         }
 
-        if (accessToken == null) {
+        if (accessToken == null)
+        {
             throw new FoundNoAccessTokenException("Found no access token, please obtain an access token before making a request");
         }
 
-        if (accessToken.ExpiresIn > (timestamp + expireThreshold)) {
+        if (accessToken.ExpiresIn > (timestamp + expireThreshold))
+        {
             return accessToken.Token;
         }
 
-        if (automaticRefresh && !String.IsNullOrEmpty(accessToken.RefreshToken)) {
+        if (automaticRefresh && !String.IsNullOrEmpty(accessToken.RefreshToken))
+        {
             accessToken = await this.FetchAccessTokenByRefresh(accessToken.RefreshToken);
         }
 
         return accessToken.Token;
     }
-    
+
     private AccessToken ParseTokenResponse(RestResponse<AccessToken> response)
     {
-        try {
-            if (response.StatusCode != HttpStatusCode.OK) {
+        try
+        {
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
                 throw new InvalidAccessTokenException("Could not obtain access token");
             }
 
             AccessToken? accessToken = response.Data;
-            if (accessToken == null) {
+            if (accessToken == null)
+            {
                 throw new InvalidAccessTokenException("Could not obtain access token");
             }
 
             this._tokenStore.Persist(accessToken);
 
             return accessToken;
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new AccessTokenRequestException("Could not parse access token response " + e.Message, e);
         }
     }
@@ -141,7 +156,7 @@ public class OAuth2Authenticator : IAuthenticator
     {
         RestClient httpClient = this.NewHttpClient(credentials);
         RestResponse<AccessToken> response = httpClient.Execute<AccessToken>(request);
-        
+
         AccessToken token = this.ParseTokenResponse(response);
 
         return token;
