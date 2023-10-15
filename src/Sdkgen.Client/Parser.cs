@@ -108,15 +108,15 @@ public class Parser
     {
         if (value is string)
         {
-            return value.ToString();
+            return value.ToString() ?? "";
         }
         else if (value is float || value is double)
         {
-            return value.ToString();
+            return value.ToString() ?? "";
         }
         else if (value is int)
         {
-            return value.ToString();
+            return value.ToString() ?? "";
         }
         else if (value is bool)
         {
