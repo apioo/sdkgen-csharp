@@ -33,7 +33,9 @@ public class OAuth2Authenticator : IAuthenticator
 
     public ValueTask Authenticate(RestClient client, RestRequest request)
     {
-        return new ValueTask(Task.FromResult(new HeaderParameter("Authorization", "Bearer " + this.GetAccessToken())));
+        request.AddHeader(KnownHeaders.Authorization, "Bearer " + this.GetAccessToken());
+
+        return new ValueTask(Task.FromResult(request));
     }
 
     public String BuildRedirectUrl(string redirectUrl, List<string>? scopes, string? state)

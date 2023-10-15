@@ -23,6 +23,8 @@ public class HttpBearerAuthenticator : IAuthenticator
 
     public ValueTask Authenticate(RestClient client, RestRequest request)
     {
-        return new ValueTask(Task.FromResult(new HeaderParameter("Authorization", "Bearer " + this._credentials.Token)));
+        request.AddHeader(KnownHeaders.Authorization, "Bearer " + this._credentials.Token);
+
+        return new ValueTask(Task.FromResult(request));
     }
 }

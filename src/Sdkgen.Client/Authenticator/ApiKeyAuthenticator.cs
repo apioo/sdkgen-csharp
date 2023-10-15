@@ -23,6 +23,8 @@ public class ApiKeyAuthenticator : IAuthenticator
 
     public ValueTask Authenticate(RestClient client, RestRequest request)
     {
-        return new ValueTask(Task.FromResult(new HeaderParameter(this._credentials.Name, this._credentials.Token)));
+        request.AddHeader(this._credentials.Name, this._credentials.Token);
+
+        return new ValueTask(Task.FromResult(request));
     }
 }

@@ -25,7 +25,8 @@ public class HttpBasicAuthenticator : IAuthenticator
     public ValueTask Authenticate(RestClient client, RestRequest request)
     {
         var basic = Encoding.UTF8.GetBytes(this._credentials.UserName + ":" + this._credentials.Password);
-        return new ValueTask(
-            Task.FromResult(new HeaderParameter("Authorization", "Basic " + Convert.ToBase64String(basic))));
+        request.AddHeader(KnownHeaders.Authorization, "Basic " + Convert.ToBase64String(basic));
+
+        return new ValueTask(Task.FromResult(request));
     }
 }
