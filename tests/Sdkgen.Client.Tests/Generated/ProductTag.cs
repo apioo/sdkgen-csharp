@@ -5,6 +5,7 @@
 
 
 using System.Collections.Generic;
+using System.Text.Json;
 using RestSharp;
 using Sdkgen.Client;
 using Sdkgen.Client.Exception;
@@ -33,12 +34,11 @@ public class ProductTag : TagAbstract {
 
             RestRequest request = new RestRequest(this.Parser.Url("/anything", pathParams), Method.Get);
             this.Parser.Query(request, queryParams);
-            request.AddHeader("Content-Type", "application/json");
 
-            RestResponse<string> response = this.HttpClient.Execute<string>(request);
+            RestResponse response = this.HttpClient.Execute(request);
 
             if (response.IsSuccessful) {
-                return this.Parser.Parse<TestResponse>(response.Data);
+                return this.Parser.Parse<TestResponse>(response.Content);
             }
 
             switch ((int) response.StatusCode)
@@ -66,13 +66,12 @@ public class ProductTag : TagAbstract {
 
             RestRequest request = new RestRequest(this.Parser.Url("/anything", pathParams), Method.Post);
             this.Parser.Query(request, queryParams);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddJsonBody(payload);
+            request.AddJsonBody(JsonSerializer.Serialize(payload));
 
-            RestResponse<string> response = this.HttpClient.Execute<string>(request);
+            RestResponse response = this.HttpClient.Execute(request);
 
             if (response.IsSuccessful) {
-                return this.Parser.Parse<TestResponse>(response.Data);
+                return this.Parser.Parse<TestResponse>(response.Content);
             }
 
             switch ((int) response.StatusCode)
@@ -101,13 +100,12 @@ public class ProductTag : TagAbstract {
 
             RestRequest request = new RestRequest(this.Parser.Url("/anything/:id", pathParams), Method.Put);
             this.Parser.Query(request, queryParams);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddJsonBody(payload);
+            request.AddJsonBody(JsonSerializer.Serialize(payload));
 
-            RestResponse<string> response = this.HttpClient.Execute<string>(request);
+            RestResponse response = this.HttpClient.Execute(request);
 
             if (response.IsSuccessful) {
-                return this.Parser.Parse<TestResponse>(response.Data);
+                return this.Parser.Parse<TestResponse>(response.Content);
             }
 
             switch ((int) response.StatusCode)
@@ -136,13 +134,12 @@ public class ProductTag : TagAbstract {
 
             RestRequest request = new RestRequest(this.Parser.Url("/anything/:id", pathParams), Method.Patch);
             this.Parser.Query(request, queryParams);
-            request.AddHeader("Content-Type", "application/json");
-            request.AddJsonBody(payload);
+            request.AddJsonBody(JsonSerializer.Serialize(payload));
 
-            RestResponse<string> response = this.HttpClient.Execute<string>(request);
+            RestResponse response = this.HttpClient.Execute(request);
 
             if (response.IsSuccessful) {
-                return this.Parser.Parse<TestResponse>(response.Data);
+                return this.Parser.Parse<TestResponse>(response.Content);
             }
 
             switch ((int) response.StatusCode)
@@ -171,12 +168,11 @@ public class ProductTag : TagAbstract {
 
             RestRequest request = new RestRequest(this.Parser.Url("/anything/:id", pathParams), Method.Delete);
             this.Parser.Query(request, queryParams);
-            request.AddHeader("Content-Type", "application/json");
 
-            RestResponse<string> response = this.HttpClient.Execute<string>(request);
+            RestResponse response = this.HttpClient.Execute(request);
 
             if (response.IsSuccessful) {
-                return this.Parser.Parse<TestResponse>(response.Data);
+                return this.Parser.Parse<TestResponse>(response.Content);
             }
 
             switch ((int) response.StatusCode)

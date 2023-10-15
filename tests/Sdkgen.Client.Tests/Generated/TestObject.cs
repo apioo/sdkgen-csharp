@@ -3,7 +3,8 @@
  * @see https://sdkgen.app
  */
 
-namespace Sdkgen.Client.Tests.Generated;
+namespace Sdkgen.Client.Tests.Generated
+{
 
 using System.Text.Json.Serialization;
 public class TestObject
@@ -12,4 +13,5 @@ public class TestObject
     public int Id { get; set; }
     [JsonPropertyName("name")]
     public string Name { get; set; }
+}
 }

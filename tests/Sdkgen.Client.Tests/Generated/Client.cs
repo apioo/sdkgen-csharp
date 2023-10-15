@@ -5,6 +5,7 @@
 
 
 using System.Collections.Generic;
+using System.Text.Json;
 using RestSharp;
 using Sdkgen.Client;
 using Sdkgen.Client.Credentials;
