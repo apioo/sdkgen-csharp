@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <PackageId>Sdkgen.Client</PackageId>
-    <PackageVersion>0.1.1</PackageVersion>
+    <PackageVersion>0.1.2</PackageVersion>
     <Authors>chriskapp</Authors>
     <Company>Apioo</Company>
     <Description>SDKgen is a powerful code generator to automatically build client SDKs for your REST API</Description>
@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://sdkgen.app/</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/apioo/sdkgen-csharp/blob/main/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReadmeFile>../../README.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
@@ -23,8 +23,9 @@
   <ItemGroup>
     <None Include="..\..\logo.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <PackagePath>\</PackagePath>
       <Link>logo.png</Link>
     </None>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 </Project>
