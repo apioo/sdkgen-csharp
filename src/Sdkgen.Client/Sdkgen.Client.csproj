@@ -2,18 +2,19 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <PackageId>Sdkgen.Client</PackageId>
-    <Version>0.1.0</Version>
+    <PackageVersion>0.1.0</PackageVersion>
     <Authors>chriskapp</Authors>
     <Company>Apioo</Company>
-    <PackageDescription>SDKgen is a powerful code generator to automatically build client SDKs for your REST API</PackageDescription>
+    <Description>SDKgen is a powerful code generator to automatically build client SDKs for your REST API</Description>
+    <Copyright>Christoph Kappestein</Copyright>
     <RepositoryUrl>https://github.com/apioo/sdkgen-csharp</RepositoryUrl>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>sdkgen-client</AssemblyName>
-    <Copyright>Christoph Kappestein</Copyright>
     <PackageProjectUrl>https://sdkgen.app/</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/apioo/sdkgen-csharp/blob/main/LICENSE</PackageLicenseUrl>
     <PackageIcon>logo.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="RestSharp" Version="108.0.1" />
