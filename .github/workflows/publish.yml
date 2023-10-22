@@ -1,26 +1,21 @@
 name: Publish
 on:
-  release:
-    types: [created]
+  tags:
+    - '*'
+permissions:
+  contents: read
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: read
-    defaults:
-      run:
-        working-directory: src/Sdkgen.Client
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x' # SDK Version to use.
-          source-url: https://nuget.pkg.github.com/chriskapp/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: dotnet build --configuration Release
-      - name: Create the package
-        run: dotnet pack --configuration Release Sdkgen.Client
-      - name: Publish the package to GPR
-        run: dotnet nuget push sdkgen/bin/Release/*.nupkg
+          dotnet-version: '7.0.102'
+      - name: Create and push NuGet package
+        working-directory: ./src/Sdkgen.Client
+        run: |
+          dotnet pack -c Release
+          dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
