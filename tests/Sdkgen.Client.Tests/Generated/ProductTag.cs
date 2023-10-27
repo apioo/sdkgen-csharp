@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
 using RestSharp;
 using Sdkgen.Client;
 using Sdkgen.Client.Exception;
@@ -21,7 +22,7 @@ public class ProductTag : TagAbstract {
     /**
      * Returns a collection
      */
-    public TestResponse getAll(int startIndex, int count, string search)
+    public async Task<TestResponse> GetAll(int startIndex, int count, string search)
     {
         try
         {
@@ -35,7 +36,7 @@ public class ProductTag : TagAbstract {
             RestRequest request = new RestRequest(this.Parser.Url("/anything", pathParams), Method.Get);
             this.Parser.Query(request, queryParams);
 
-            RestResponse response = this.HttpClient.Execute(request);
+            RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
             if (response.IsSuccessful) {
                 return this.Parser.Parse<TestResponse>(response.Content);
@@ -56,7 +57,7 @@ public class ProductTag : TagAbstract {
     /**
      * Creates a new product
      */
-    public TestResponse create(TestRequest payload)
+    public async Task<TestResponse> Create(TestRequest payload)
     {
         try
         {
@@ -68,7 +69,7 @@ public class ProductTag : TagAbstract {
             this.Parser.Query(request, queryParams);
             request.AddJsonBody(JsonSerializer.Serialize(payload));
 
-            RestResponse response = this.HttpClient.Execute(request);
+            RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
             if (response.IsSuccessful) {
                 return this.Parser.Parse<TestResponse>(response.Content);
@@ -89,7 +90,7 @@ public class ProductTag : TagAbstract {
     /**
      * Updates an existing product
      */
-    public TestResponse update(int id, TestRequest payload)
+    public async Task<TestResponse> Update(int id, TestRequest payload)
     {
         try
         {
@@ -102,7 +103,7 @@ public class ProductTag : TagAbstract {
             this.Parser.Query(request, queryParams);
             request.AddJsonBody(JsonSerializer.Serialize(payload));
 
-            RestResponse response = this.HttpClient.Execute(request);
+            RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
             if (response.IsSuccessful) {
                 return this.Parser.Parse<TestResponse>(response.Content);
@@ -123,7 +124,7 @@ public class ProductTag : TagAbstract {
     /**
      * Patches an existing product
      */
-    public TestResponse patch(int id, TestRequest payload)
+    public async Task<TestResponse> Patch(int id, TestRequest payload)
     {
         try
         {
@@ -136,7 +137,7 @@ public class ProductTag : TagAbstract {
             this.Parser.Query(request, queryParams);
             request.AddJsonBody(JsonSerializer.Serialize(payload));
 
-            RestResponse response = this.HttpClient.Execute(request);
+            RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
             if (response.IsSuccessful) {
                 return this.Parser.Parse<TestResponse>(response.Content);
@@ -157,7 +158,7 @@ public class ProductTag : TagAbstract {
     /**
      * Deletes an existing product
      */
-    public TestResponse delete(int id)
+    public async Task<TestResponse> Delete(int id)
     {
         try
         {
@@ -169,7 +170,7 @@ public class ProductTag : TagAbstract {
             RestRequest request = new RestRequest(this.Parser.Url("/anything/:id", pathParams), Method.Delete);
             this.Parser.Query(request, queryParams);
 
-            RestResponse response = this.HttpClient.Execute(request);
+            RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
             if (response.IsSuccessful) {
                 return this.Parser.Parse<TestResponse>(response.Content);

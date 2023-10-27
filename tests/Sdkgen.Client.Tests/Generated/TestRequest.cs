@@ -3,10 +3,8 @@
  * @see https://sdkgen.app
  */
 
-namespace Sdkgen.Client.Tests.Generated
-{
-
 using System.Text.Json.Serialization;
+namespace Sdkgen.Client.Tests.Generated;
 public class TestRequest
 {
     [JsonPropertyName("int")]
@@ -27,5 +25,4 @@ public class TestRequest
     public TestMapObject MapObject { get; set; }
     [JsonPropertyName("object")]
     public TestObject Object { get; set; }
-}
 }

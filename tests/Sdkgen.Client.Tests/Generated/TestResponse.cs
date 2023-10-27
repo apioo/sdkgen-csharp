@@ -3,10 +3,8 @@
  * @see https://sdkgen.app
  */
 
-namespace Sdkgen.Client.Tests.Generated
-{
-
 using System.Text.Json.Serialization;
+namespace Sdkgen.Client.Tests.Generated;
 public class TestResponse
 {
     [JsonPropertyName("args")]
@@ -17,5 +15,4 @@ public class TestResponse
     public TestRequest Json { get; set; }
     [JsonPropertyName("method")]
     public string Method { get; set; }
-}
 }

@@ -3,12 +3,9 @@
  * @see https://sdkgen.app
  */
 
-namespace Sdkgen.Client.Tests.Generated
-{
-
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+namespace Sdkgen.Client.Tests.Generated;
 public class TestMapObject : Dictionary<string, TestObject>
 {
-}
 }

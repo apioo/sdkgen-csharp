@@ -11,6 +11,7 @@
 using System;
 using System.Net.Sockets;
 using System.Text.Json;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Sdkgen.Client.Tests.Generated;
 
@@ -25,11 +26,11 @@ public class IntegrationTest
     }
 
     [Test]
-    public void TestClientGetAll()
+    public async Task TestClientGetAll()
     {
         Generated.Client client = Generated.Client.Build("my_token");
 
-        TestResponse response = client.product().getAll(8, 16, "foobar");
+        TestResponse response = await client.Product().GetAll(8, 16, "foobar");
 
         Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
         Assert.AreEqual("application/json", response.Headers["Accept"]);
@@ -42,12 +43,12 @@ public class IntegrationTest
     }
 
     [Test]
-    public void TestClientCreate()
+    public async Task TestClientCreate()
     {
         Generated.Client client = Generated.Client.Build("my_token");
 
         TestRequest payload = this.NewPayload();
-        TestResponse response = client.product().create(payload);
+        TestResponse response = await client.Product().Create(payload);
 
         Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
         Assert.AreEqual("application/json", response.Headers["Accept"]);
@@ -58,12 +59,12 @@ public class IntegrationTest
     }
 
     [Test]
-    public void TestClientUpdate()
+    public async Task TestClientUpdate()
     {
         Generated.Client client = Generated.Client.Build("my_token");
 
         TestRequest payload = this.NewPayload();
-        TestResponse response = client.product().update(1, payload);
+        TestResponse response = await client.Product().Update(1, payload);
 
         Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
         Assert.AreEqual("application/json", response.Headers["Accept"]);
@@ -74,12 +75,12 @@ public class IntegrationTest
     }
 
     [Test]
-    public void TestClientPatch()
+    public async Task TestClientPatch()
     {
         Generated.Client client = Generated.Client.Build("my_token");
 
         TestRequest payload = this.NewPayload();
-        TestResponse response = client.product().patch(1, payload);
+        TestResponse response = await client.Product().Patch(1, payload);
 
         Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
         Assert.AreEqual("application/json", response.Headers["Accept"]);
@@ -90,11 +91,11 @@ public class IntegrationTest
     }
 
     [Test]
-    public void TestClientDelete()
+    public async Task TestClientDelete()
     {
         Generated.Client client = Generated.Client.Build("my_token");
 
-        TestResponse response = client.product().delete(1);
+        TestResponse response = await client.Product().Delete(1);
 
         Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
         Assert.AreEqual("application/json", response.Headers["Accept"]);

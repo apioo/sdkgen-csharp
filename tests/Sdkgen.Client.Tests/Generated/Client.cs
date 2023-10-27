@@ -6,6 +6,7 @@
 
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
 using RestSharp;
 using Sdkgen.Client;
 using Sdkgen.Client.Credentials;
@@ -19,7 +20,7 @@ public class Client : ClientAbstract
     {
     }
 
-    public ProductTag product()
+    public ProductTag Product()
     {
         return new ProductTag(
             this.HttpClient,
