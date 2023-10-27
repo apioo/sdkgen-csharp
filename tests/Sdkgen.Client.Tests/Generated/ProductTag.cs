@@ -38,7 +38,8 @@ public class ProductTag : TagAbstract {
 
             RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
-            if (response.IsSuccessful) {
+            if (response.IsSuccessful)
+            {
                 return this.Parser.Parse<TestResponse>(response.Content);
             }
 
@@ -47,6 +48,10 @@ public class ProductTag : TagAbstract {
                 default:
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
+        }
+        catch (ClientException e)
+        {
+            throw e;
         }
         catch (System.Exception e)
         {
@@ -71,7 +76,8 @@ public class ProductTag : TagAbstract {
 
             RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
-            if (response.IsSuccessful) {
+            if (response.IsSuccessful)
+            {
                 return this.Parser.Parse<TestResponse>(response.Content);
             }
 
@@ -80,6 +86,10 @@ public class ProductTag : TagAbstract {
                 default:
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
+        }
+        catch (ClientException e)
+        {
+            throw e;
         }
         catch (System.Exception e)
         {
@@ -105,7 +115,8 @@ public class ProductTag : TagAbstract {
 
             RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
-            if (response.IsSuccessful) {
+            if (response.IsSuccessful)
+            {
                 return this.Parser.Parse<TestResponse>(response.Content);
             }
 
@@ -114,6 +125,10 @@ public class ProductTag : TagAbstract {
                 default:
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
+        }
+        catch (ClientException e)
+        {
+            throw e;
         }
         catch (System.Exception e)
         {
@@ -139,7 +154,8 @@ public class ProductTag : TagAbstract {
 
             RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
-            if (response.IsSuccessful) {
+            if (response.IsSuccessful)
+            {
                 return this.Parser.Parse<TestResponse>(response.Content);
             }
 
@@ -148,6 +164,10 @@ public class ProductTag : TagAbstract {
                 default:
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
+        }
+        catch (ClientException e)
+        {
+            throw e;
         }
         catch (System.Exception e)
         {
@@ -172,7 +192,8 @@ public class ProductTag : TagAbstract {
 
             RestResponse response = await this.HttpClient.ExecuteAsync(request);
 
-            if (response.IsSuccessful) {
+            if (response.IsSuccessful)
+            {
                 return this.Parser.Parse<TestResponse>(response.Content);
             }
 
@@ -181,6 +202,10 @@ public class ProductTag : TagAbstract {
                 default:
                     throw new UnknownStatusCodeException("The server returned an unknown status code");
             }
+        }
+        catch (ClientException e)
+        {
+            throw e;
         }
         catch (System.Exception e)
         {
