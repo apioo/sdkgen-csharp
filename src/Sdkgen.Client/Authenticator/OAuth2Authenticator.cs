@@ -111,7 +111,7 @@ public class OAuth2Authenticator : IAuthenticator
         long timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
 
         AccessToken? accessToken = this._tokenStore.Get();
-        if ((accessToken == null || accessToken.ExpiresIn < timestamp))
+        if ((accessToken == null || accessToken.GetExpiresInTimestamp() < timestamp))
         {
             accessToken = this.FetchAccessTokenByClientCredentials();
         }
@@ -121,12 +121,12 @@ public class OAuth2Authenticator : IAuthenticator
             throw new FoundNoAccessTokenException("Found no access token, please obtain an access token before making a request");
         }
 
-        if (accessToken.ExpiresIn > (timestamp + expireThreshold))
+        if (accessToken.GetExpiresInTimestamp() > (timestamp + expireThreshold))
         {
             return accessToken.Token;
         }
 
-        if (automaticRefresh && !String.IsNullOrEmpty(accessToken.RefreshToken))
+        if (automaticRefresh && accessToken.HasRefreshToken())
         {
             accessToken = await this.FetchAccessTokenByRefresh(accessToken.RefreshToken);
         }
