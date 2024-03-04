@@ -45,13 +45,16 @@ public class Parser
                 continue;
             }
 
-            if (structNames.Contains(entry.Key) && entry.Value is object)
+            if (structNames.Contains(entry.Key))
             {
-                Dictionary<string, object> nestedProperties = entry.Value.GetType()
-                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                    .ToDictionary(prop => prop.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name, prop => prop.GetValue(entry.Value, null));
+                if (entry.Value is object)
+                {
+                    Dictionary<string, object> nestedProperties = entry.Value.GetType()
+                        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                        .ToDictionary(prop => prop.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name, prop => prop.GetValue(entry.Value, null));
 
-                this.Query(request, nestedProperties);
+                    this.Query(request, nestedProperties);
+                }
             }
             else
             {
