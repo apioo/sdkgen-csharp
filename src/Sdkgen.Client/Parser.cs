@@ -8,7 +8,10 @@
  * file that was distributed with this source code.
  */
 
+using System.Globalization;
+using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using RestSharp;
 using Sdkgen.Client.Exception;
 
@@ -20,7 +23,7 @@ public class Parser
 
     public Parser(string baseUrl)
     {
-        this._baseUrl = baseUrl;
+        this._baseUrl = this.NormalizeBaseUrl(baseUrl);
     }
 
     public string Url(string path, IReadOnlyDictionary<string, object> parameters)
@@ -30,6 +33,11 @@ public class Parser
 
     public void Query(RestRequest request, IReadOnlyDictionary<string, object> parameters)
     {
+        this.Query(request, parameters, new List<string>());
+    }
+
+    public void Query(RestRequest request, IReadOnlyDictionary<string, object> parameters, List<string> structNames)
+    {
         foreach (KeyValuePair<string, object> entry in parameters)
         {
             if (entry.Value == null)
@@ -37,7 +45,18 @@ public class Parser
                 continue;
             }
 
-            request.AddParameter(entry.Key, this.ToString(entry.Value));
+            if (structNames.Contains(entry.Key) && entry.Value is object)
+            {
+                Dictionary<string, object> nestedProperties = entry.Value.GetType()
+                    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                    .ToDictionary(prop => prop.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name, prop => prop.GetValue(entry.Value, null));
+
+                this.Query(request, nestedProperties);
+            }
+            else
+            {
+                request.AddParameter(entry.Key, this.ToString(entry.Value));
+            }
         }
     }
 
@@ -84,11 +103,11 @@ public class Parser
             else if (part.StartsWith("$"))
             {
                 int pos = part.IndexOf("<");
-                name = pos != -1 ? part.Substring(1, pos) : part.Substring(1);
+                name = pos != -1 ? part.Substring(1, pos - 1) : part.Substring(1);
             }
             else if (part.StartsWith("{") && part.EndsWith("}"))
             {
-                name = part.Substring(1, part.Length - 1);
+                name = part.Substring(1, part.Length - 2);
             }
 
             if (name != null && parameters.ContainsKey(name))
@@ -110,9 +129,13 @@ public class Parser
         {
             return value.ToString() ?? "";
         }
-        else if (value is float || value is double)
+        else if (value is float)
         {
-            return value.ToString() ?? "";
+            return ((float) value).ToString("0.00", CultureInfo.InvariantCulture);
+        }
+        else if (value is double)
+        {
+            return ((double) value).ToString("0.00", CultureInfo.InvariantCulture);
         }
         else if (value is int)
         {
@@ -124,19 +147,27 @@ public class Parser
         }
         else if (value is DateOnly)
         {
-            return ((DateOnly)value).ToString("yyyy-MM-dd");
+            return ((DateOnly) value).ToString("yyyy-MM-dd");
         }
         else if (value is DateTime)
         {
-            return ((DateTime)value).ToString("O");
+            return ((DateTime) value).ToString("yyyy-MM-ddTHH:mm:ssK", CultureInfo.InvariantCulture);
         }
         else if (value is TimeOnly)
         {
-            return ((TimeOnly)value).ToString("HH:mm:ss");
+            return ((TimeOnly) value).ToString("HH:mm:ss");
         }
         else
         {
             return "";
         }
     }
+
+    private string NormalizeBaseUrl(string baseUrl) {
+        if (baseUrl.EndsWith("/")) {
+            baseUrl = baseUrl.Substring(0, baseUrl.Length - 1);
+        }
+        return baseUrl;
+    }
+
 }

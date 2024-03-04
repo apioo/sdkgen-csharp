@@ -8,7 +8,7 @@ namespace Sdkgen.Client.Tests.Generated;
 public class TestObject
 {
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public int? Id { get; set; }
     [JsonPropertyName("name")]
     public string Name { get; set; }
 }
