@@ -10,7 +10,7 @@
 
 namespace Sdkgen.Client.Credentials;
 
-abstract public class OAuth2 : ICredentials
+public class OAuth2 : ICredentials
 {
     public OAuth2(string clientId, string clientSecret, string tokenUrl, string authorizationUrl,
         ITokenStore tokenStore, List<string>? scopes)
