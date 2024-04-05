@@ -18,25 +18,25 @@ public class AuthenticatorFactory
 {
     public static IAuthenticator Factory(ICredentials credentials)
     {
-        if (credentials is HttpBasic)
+        if (credentials is HttpBasic httpBasic)
         {
-            return new HttpBasicAuthenticator((HttpBasic)credentials);
+            return new HttpBasicAuthenticator(httpBasic);
         }
-        else if (credentials is HttpBearer)
+        else if (credentials is HttpBearer httpBearer)
         {
-            return new HttpBearerAuthenticator((HttpBearer)credentials);
+            return new HttpBearerAuthenticator(httpBearer);
         }
-        else if (credentials is ApiKey)
+        else if (credentials is ApiKey apiKey)
         {
-            return new ApiKeyAuthenticator((ApiKey)credentials);
+            return new ApiKeyAuthenticator(apiKey);
         }
-        else if (credentials is OAuth2)
+        else if (credentials is OAuth2 oauth2)
         {
-            return new OAuth2Authenticator((OAuth2)credentials);
+            return new OAuth2Authenticator(oauth2);
         }
-        else if (credentials is Anonymous)
+        else if (credentials is Anonymous anonymous)
         {
-            return new AnonymousAuthenticator((Anonymous)credentials);
+            return new AnonymousAuthenticator(anonymous);
         }
         else
         {

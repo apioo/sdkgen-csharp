@@ -17,7 +17,7 @@ using Sdkgen.Client.Exception.Authenticator;
 
 namespace Sdkgen.Client.Authenticator;
 
-public class OAuth2Authenticator : AuthenticatorBase
+public class OAuth2Authenticator : AuthenticatorBase, IAuthenticator
 {
     private const int EXPIRE_THRESHOLD = 60 * 10;
 
