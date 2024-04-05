@@ -11,12 +11,13 @@
 using System.Collections.Specialized;
 using System.Net;
 using RestSharp;
+using RestSharp.Authenticators;
 using Sdkgen.Client.Credentials;
 using Sdkgen.Client.Exception.Authenticator;
 
 namespace Sdkgen.Client.Authenticator;
 
-public class OAuth2Authenticator : IAuthenticator
+public class OAuth2Authenticator : AuthenticatorBase
 {
     private const int EXPIRE_THRESHOLD = 60 * 10;
 
@@ -24,18 +25,18 @@ public class OAuth2Authenticator : IAuthenticator
     private readonly ITokenStore _tokenStore;
     private readonly List<String>? _scopes;
 
-    public OAuth2Authenticator(Credentials.OAuth2 credentials)
+    public OAuth2Authenticator(Credentials.OAuth2 credentials) : base("")
     {
         this._credentials = credentials;
         this._tokenStore = credentials.TokenStore;
         this._scopes = credentials.Scopes;
     }
 
-    public ValueTask Authenticate(RestClient client, RestRequest request)
+    protected override async ValueTask<Parameter> GetAuthenticationParameter(string accessToken)
     {
-        request.AddHeader(KnownHeaders.Authorization, "Bearer " + this.GetAccessToken());
+        Token = string.IsNullOrEmpty(Token) ? await this.GetAccessToken() : Token;
 
-        return new ValueTask(Task.FromResult(request));
+        return new HeaderParameter(KnownHeaders.Authorization, "Bearer " + Token);
     }
 
     public String BuildRedirectUrl(string redirectUrl, List<string>? scopes, string? state)
