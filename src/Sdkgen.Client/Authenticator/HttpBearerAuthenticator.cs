@@ -9,22 +9,21 @@
  */
 
 using RestSharp;
+using RestSharp.Authenticators;
 
 namespace Sdkgen.Client.Authenticator;
 
-public class HttpBearerAuthenticator : IAuthenticator
+public class HttpBearerAuthenticator : AuthenticatorBase
 {
     private readonly Credentials.HttpBearer _credentials;
 
-    public HttpBearerAuthenticator(Credentials.HttpBearer credentials)
+    public HttpBearerAuthenticator(Credentials.HttpBearer credentials) : base("")
     {
         this._credentials = credentials;
     }
 
-    public ValueTask Authenticate(RestClient client, RestRequest request)
+    protected override async ValueTask<Parameter> GetAuthenticationParameter(string accessToken)
     {
-        request.AddHeader(KnownHeaders.Authorization, "Bearer " + this._credentials.Token);
-
-        return new ValueTask(Task.FromResult(request));
+        return new HeaderParameter(KnownHeaders.Authorization, "Bearer " + this._credentials.Token);
     }
 }
