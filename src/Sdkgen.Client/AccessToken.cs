@@ -10,8 +10,25 @@
 
 namespace Sdkgen.Client;
 
+using System.Text.Json.Serialization;
+
 public class AccessToken
-{
+{  
+    [JsonPropertyName("access_token")]
+    public string Token { get; set; }
+
+    [JsonPropertyName("token_type")]
+    public string TokenType { get; set; }
+
+    [JsonPropertyName("expires_in")]
+    public long ExpiresIn { get; set; }
+
+    [JsonPropertyName("refresh_token")]
+    public string RefreshToken { get; set; }
+
+    [JsonPropertyName("scope")]
+    public string Scope { get; set; }
+
     public AccessToken(string token, string tokenType, long expiresIn, string refreshToken, string scope)
     {
         Token = token;
@@ -20,12 +37,6 @@ public class AccessToken
         RefreshToken = refreshToken;
         Scope = scope;
     }
-
-    public string Token { get; set; }
-    public string TokenType { get; set; }
-    public long ExpiresIn { get; set; }
-    public string RefreshToken { get; set; }
-    public string Scope { get; set; }
 
     public bool HasRefreshToken()
     {
