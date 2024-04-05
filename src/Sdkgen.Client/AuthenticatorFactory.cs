@@ -20,19 +20,19 @@ public class AuthenticatorFactory
     {
         if (credentials is HttpBasic)
         {
-            return new HttpBasicAuthenticator((HttpBasic)credentials);
+            return (IAuthenticator) new HttpBasicAuthenticator((HttpBasic)credentials);
         }
         else if (credentials is HttpBearer)
         {
-            return new HttpBearerAuthenticator((HttpBearer)credentials);
+            return (IAuthenticator) new HttpBearerAuthenticator((HttpBearer)credentials);
         }
         else if (credentials is ApiKey)
         {
-            return new ApiKeyAuthenticator((ApiKey)credentials);
+            return (IAuthenticator) new ApiKeyAuthenticator((ApiKey)credentials);
         }
         else if (credentials is OAuth2)
         {
-            return new OAuth2Authenticator((OAuth2)credentials);
+            return (IAuthenticator) new OAuth2Authenticator((OAuth2)credentials);
         }
         else if (credentials is Anonymous)
         {
