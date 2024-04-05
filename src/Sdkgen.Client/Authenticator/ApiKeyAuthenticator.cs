@@ -13,7 +13,7 @@ using RestSharp.Authenticators;
 
 namespace Sdkgen.Client.Authenticator;
 
-public class ApiKeyAuthenticator : AuthenticatorBase
+public class ApiKeyAuthenticator : AuthenticatorBase, IAuthenticator
 {
     private readonly Credentials.ApiKey _credentials;
 

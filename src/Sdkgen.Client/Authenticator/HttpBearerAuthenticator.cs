@@ -13,7 +13,7 @@ using RestSharp.Authenticators;
 
 namespace Sdkgen.Client.Authenticator;
 
-public class HttpBearerAuthenticator : AuthenticatorBase
+public class HttpBearerAuthenticator : AuthenticatorBase, IAuthenticator
 {
     private readonly Credentials.HttpBearer _credentials;
 

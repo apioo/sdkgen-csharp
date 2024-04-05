@@ -14,7 +14,7 @@ using RestSharp.Authenticators;
 
 namespace Sdkgen.Client.Authenticator;
 
-public class HttpBasicAuthenticator : AuthenticatorBase
+public class HttpBasicAuthenticator : AuthenticatorBase, IAuthenticator
 {
     private readonly Credentials.HttpBasic _credentials;
 
