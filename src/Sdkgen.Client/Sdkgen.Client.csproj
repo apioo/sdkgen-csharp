@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <PackageId>Sdkgen.Client</PackageId>
     <PackageVersion>0.2.0</PackageVersion>
     <Authors>chriskapp</Authors>
@@ -18,7 +18,7 @@
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="RestSharp" Version="108.0.1" />
+    <PackageReference Include="RestSharp" Version="112.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\logo.png">
