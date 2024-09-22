@@ -23,10 +23,14 @@ public class HttpClientFactory
 
     public RestClient Factory()
     {
-        RestClient client = new RestClient();
-        client.AddDefaultHeader("User-Agent", ClientAbstract.USER_AGENT);
+        var options = new RestClientOptions() {
+            ThrowOnAnyError = false,
+            Authenticator = this._authenticator,
+            UserAgent = ClientAbstract.USER_AGENT
+        };
+
+        RestClient client = new RestClient(options);
         client.AddDefaultHeader("Accept", "application/json");
-        client.Authenticator = this._authenticator;
         return client;
     }
 }
