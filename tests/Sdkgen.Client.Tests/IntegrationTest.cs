@@ -143,6 +143,25 @@ public class IntegrationTest
     }
 
     [Test]
+    public async Task TestClientJson()
+    {
+        Generated.Client client = Generated.Client.Build("my_token");
+
+        var payload = new Dictionary<string, string>
+        {
+            { "string", "bar" }
+        };
+
+        TestResponse response = await client.Product().Json(payload);
+
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("POST"));
+        Assert.That(response.Json.String, Is.EqualTo("bar"));
+    }
+
+    [Test]
     public async Task TestClientMultipart()
     {
         Generated.Client client = Generated.Client.Build("my_token");
