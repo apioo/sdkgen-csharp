@@ -21,7 +21,7 @@ public class AnonymousAuthenticator : IAuthenticator
         this._credentials = credentials;
     }
 
-    public ValueTask Authenticate(RestClient client, RestRequest request)
+    public ValueTask Authenticate(IRestClient client, RestRequest request)
     {
         return new ValueTask();
     }
