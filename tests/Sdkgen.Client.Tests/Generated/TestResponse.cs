@@ -8,11 +8,17 @@ namespace Sdkgen.Client.Tests.Generated;
 public class TestResponse
 {
     [JsonPropertyName("args")]
-    public TestMapScalar Args { get; set; }
+    public TestMapScalar? Args { get; set; }
+    [JsonPropertyName("data")]
+    public string? Data { get; set; }
+    [JsonPropertyName("files")]
+    public TestMapScalar? Files { get; set; }
+    [JsonPropertyName("form")]
+    public TestMapScalar? Form { get; set; }
     [JsonPropertyName("headers")]
-    public TestMapScalar Headers { get; set; }
+    public TestMapScalar? Headers { get; set; }
     [JsonPropertyName("json")]
-    public TestRequest Json { get; set; }
+    public TestRequest? Json { get; set; }
     [JsonPropertyName("method")]
-    public string Method { get; set; }
+    public string? Method { get; set; }
 }

@@ -8,21 +8,27 @@ namespace Sdkgen.Client.Tests.Generated;
 public class TestRequest
 {
     [JsonPropertyName("int")]
-    public int Int { get; set; }
+    public int? Int { get; set; }
     [JsonPropertyName("float")]
-    public float Float { get; set; }
+    public double? Float { get; set; }
     [JsonPropertyName("string")]
-    public string String { get; set; }
+    public string? String { get; set; }
     [JsonPropertyName("bool")]
-    public bool Bool { get; set; }
+    public bool? Bool { get; set; }
+    [JsonPropertyName("dateString")]
+    public System.DateOnly? DateString { get; set; }
+    [JsonPropertyName("dateTimeString")]
+    public System.DateTime? DateTimeString { get; set; }
+    [JsonPropertyName("timeString")]
+    public System.TimeOnly? TimeString { get; set; }
     [JsonPropertyName("arrayScalar")]
-    public string[] ArrayScalar { get; set; }
+    public System.Collections.Generic.List<string>? ArrayScalar { get; set; }
     [JsonPropertyName("arrayObject")]
-    public TestObject[] ArrayObject { get; set; }
+    public System.Collections.Generic.List<TestObject>? ArrayObject { get; set; }
     [JsonPropertyName("mapScalar")]
-    public TestMapScalar MapScalar { get; set; }
+    public TestMapScalar? MapScalar { get; set; }
     [JsonPropertyName("mapObject")]
-    public TestMapObject MapObject { get; set; }
+    public TestMapObject? MapObject { get; set; }
     [JsonPropertyName("object")]
-    public TestObject Object { get; set; }
+    public TestObject? Object { get; set; }
 }

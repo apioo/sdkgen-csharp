@@ -34,4 +34,9 @@ public class Client : ClientAbstract
     {
         return new Client("http://127.0.0.1:8081", new HttpBearer(token));
     }
+
+    public static Client BuildAnonymous()
+    {
+        return new Client("http://127.0.0.1:8081", new Anonymous());
+    }
 }

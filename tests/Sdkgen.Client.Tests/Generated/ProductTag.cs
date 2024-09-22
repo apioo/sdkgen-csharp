@@ -24,193 +24,373 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> GetAll(int startIndex, int count, string search)
     {
-        try
+        Dictionary<string, object> pathParams = new();
+
+        Dictionary<string, object> queryParams = new();
+        queryParams.Add("startIndex", startIndex);
+        queryParams.Add("count", count);
+        queryParams.Add("search", search);
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything", pathParams), Method.Get);
+        this.Parser.Query(request, queryParams, queryStructNames);
+
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
         {
-            Dictionary<string, object> pathParams = new Dictionary<string, object>();
+            var data = this.Parser.Parse<TestResponse>(response.Content);
 
-            Dictionary<string, object> queryParams = new Dictionary<string, object>();
-            queryParams.Add("startIndex", startIndex);
-            queryParams.Add("count", count);
-            queryParams.Add("search", search);
-
-            RestRequest request = new RestRequest(this.Parser.Url("/anything", pathParams), Method.Get);
-            this.Parser.Query(request, queryParams);
-
-            RestResponse response = await this.HttpClient.ExecuteAsync(request);
-
-            if (response.IsSuccessful)
-            {
-                return this.Parser.Parse<TestResponse>(response.Content);
-            }
-
-            switch ((int) response.StatusCode)
-            {
-                default:
-                    throw new UnknownStatusCodeException("The server returned an unknown status code");
-            }
+            return data;
         }
-        catch (ClientException e)
-        {
-            throw e;
-        }
-        catch (System.Exception e)
-        {
-            throw new ClientException("An unknown error occurred: " + e.Message, e);
-        }
+
+        var statusCode = (int) response.StatusCode;
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
     }
-
     /**
      * Creates a new product
      */
     public async Task<TestResponse> Create(TestRequest payload)
     {
-        try
+        Dictionary<string, object> pathParams = new();
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything", pathParams), Method.Post);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        request.AddJsonBody(JsonSerializer.Serialize(payload));
+
+        request.AddOrUpdateHeader("Content-Type", "application/json");
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
         {
-            Dictionary<string, object> pathParams = new Dictionary<string, object>();
+            var data = this.Parser.Parse<TestResponse>(response.Content);
 
-            Dictionary<string, object> queryParams = new Dictionary<string, object>();
-
-            RestRequest request = new RestRequest(this.Parser.Url("/anything", pathParams), Method.Post);
-            this.Parser.Query(request, queryParams);
-            request.AddJsonBody(JsonSerializer.Serialize(payload));
-
-            RestResponse response = await this.HttpClient.ExecuteAsync(request);
-
-            if (response.IsSuccessful)
-            {
-                return this.Parser.Parse<TestResponse>(response.Content);
-            }
-
-            switch ((int) response.StatusCode)
-            {
-                default:
-                    throw new UnknownStatusCodeException("The server returned an unknown status code");
-            }
+            return data;
         }
-        catch (ClientException e)
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 500)
         {
-            throw e;
+            var data = this.Parser.Parse<TestResponse>(response.Content);
+
+            throw new TestResponseException(data);
         }
-        catch (System.Exception e)
-        {
-            throw new ClientException("An unknown error occurred: " + e.Message, e);
-        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
     }
-
     /**
      * Updates an existing product
      */
     public async Task<TestResponse> Update(int id, TestRequest payload)
     {
-        try
+        Dictionary<string, object> pathParams = new();
+        pathParams.Add("id", id);
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/:id", pathParams), Method.Put);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        request.AddJsonBody(JsonSerializer.Serialize(payload));
+
+        request.AddOrUpdateHeader("Content-Type", "application/json");
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
         {
-            Dictionary<string, object> pathParams = new Dictionary<string, object>();
-            pathParams.Add("id", id);
+            var data = this.Parser.Parse<TestResponse>(response.Content);
 
-            Dictionary<string, object> queryParams = new Dictionary<string, object>();
-
-            RestRequest request = new RestRequest(this.Parser.Url("/anything/:id", pathParams), Method.Put);
-            this.Parser.Query(request, queryParams);
-            request.AddJsonBody(JsonSerializer.Serialize(payload));
-
-            RestResponse response = await this.HttpClient.ExecuteAsync(request);
-
-            if (response.IsSuccessful)
-            {
-                return this.Parser.Parse<TestResponse>(response.Content);
-            }
-
-            switch ((int) response.StatusCode)
-            {
-                default:
-                    throw new UnknownStatusCodeException("The server returned an unknown status code");
-            }
+            return data;
         }
-        catch (ClientException e)
-        {
-            throw e;
-        }
-        catch (System.Exception e)
-        {
-            throw new ClientException("An unknown error occurred: " + e.Message, e);
-        }
+
+        var statusCode = (int) response.StatusCode;
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
     }
-
     /**
      * Patches an existing product
      */
     public async Task<TestResponse> Patch(int id, TestRequest payload)
     {
-        try
+        Dictionary<string, object> pathParams = new();
+        pathParams.Add("id", id);
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/:id", pathParams), Method.Patch);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        request.AddJsonBody(JsonSerializer.Serialize(payload));
+
+        request.AddOrUpdateHeader("Content-Type", "application/json");
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
         {
-            Dictionary<string, object> pathParams = new Dictionary<string, object>();
-            pathParams.Add("id", id);
+            var data = this.Parser.Parse<TestResponse>(response.Content);
 
-            Dictionary<string, object> queryParams = new Dictionary<string, object>();
-
-            RestRequest request = new RestRequest(this.Parser.Url("/anything/:id", pathParams), Method.Patch);
-            this.Parser.Query(request, queryParams);
-            request.AddJsonBody(JsonSerializer.Serialize(payload));
-
-            RestResponse response = await this.HttpClient.ExecuteAsync(request);
-
-            if (response.IsSuccessful)
-            {
-                return this.Parser.Parse<TestResponse>(response.Content);
-            }
-
-            switch ((int) response.StatusCode)
-            {
-                default:
-                    throw new UnknownStatusCodeException("The server returned an unknown status code");
-            }
+            return data;
         }
-        catch (ClientException e)
-        {
-            throw e;
-        }
-        catch (System.Exception e)
-        {
-            throw new ClientException("An unknown error occurred: " + e.Message, e);
-        }
+
+        var statusCode = (int) response.StatusCode;
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
     }
-
     /**
      * Deletes an existing product
      */
     public async Task<TestResponse> Delete(int id)
     {
-        try
+        Dictionary<string, object> pathParams = new();
+        pathParams.Add("id", id);
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/:id", pathParams), Method.Delete);
+        this.Parser.Query(request, queryParams, queryStructNames);
+
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
         {
-            Dictionary<string, object> pathParams = new Dictionary<string, object>();
-            pathParams.Add("id", id);
+            var data = this.Parser.Parse<TestResponse>(response.Content);
 
-            Dictionary<string, object> queryParams = new Dictionary<string, object>();
-
-            RestRequest request = new RestRequest(this.Parser.Url("/anything/:id", pathParams), Method.Delete);
-            this.Parser.Query(request, queryParams);
-
-            RestResponse response = await this.HttpClient.ExecuteAsync(request);
-
-            if (response.IsSuccessful)
-            {
-                return this.Parser.Parse<TestResponse>(response.Content);
-            }
-
-            switch ((int) response.StatusCode)
-            {
-                default:
-                    throw new UnknownStatusCodeException("The server returned an unknown status code");
-            }
+            return data;
         }
-        catch (ClientException e)
+
+        var statusCode = (int) response.StatusCode;
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
+    /**
+     * Test binary content type
+     */
+    public async Task<TestResponse> Binary(byte[] payload)
+    {
+        Dictionary<string, object> pathParams = new();
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/binary", pathParams), Method.Post);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        request.AddParameter("application/octet-stream", payload, ParameterType.RequestBody);
+
+        request.AddOrUpdateHeader("Content-Type", "application/octet-stream");
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
         {
-            throw e;
+            var data = this.Parser.Parse<TestResponse>(response.Content);
+
+            return data;
         }
-        catch (System.Exception e)
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 500)
         {
-            throw new ClientException("An unknown error occurred: " + e.Message, e);
+            var data = response.RawBytes;
+
+            throw new BinaryException(data);
         }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
+    /**
+     * Test form content type
+     */
+    public async Task<TestResponse> Form(System.Collections.Specialized.NameValueCollection payload)
+    {
+        Dictionary<string, object> pathParams = new();
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/form", pathParams), Method.Post);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        request.AddParameter("application/x-www-form-urlencoded", payload.ToString(), ParameterType.RequestBody);
+
+        request.AddOrUpdateHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            var data = this.Parser.Parse<TestResponse>(response.Content);
+
+            return data;
+        }
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 500)
+        {
+            var data = System.Web.HttpUtility.ParseQueryString(response.Content);
+
+            throw new FormException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
+    /**
+     * Test json content type
+     */
+    public async Task<TestResponse> Json(object payload)
+    {
+        Dictionary<string, object> pathParams = new();
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/json", pathParams), Method.Post);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        request.AddJsonBody(JsonSerializer.Serialize(payload));
+
+        request.AddOrUpdateHeader("Content-Type", "application/json");
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            var data = this.Parser.Parse<TestResponse>(response.Content);
+
+            return data;
+        }
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 500)
+        {
+            var data = System.Text.Json.JsonSerializer.Deserialize<object>(response.Content);
+
+            throw new JsonException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
+    /**
+     * Test json content type
+     */
+    public async Task<TestResponse> Multipart(System.Collections.Generic.Dictionary<string, string> payload)
+    {
+        Dictionary<string, object> pathParams = new();
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/multipart", pathParams), Method.Post);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        foreach(var item in payload)
+        {
+            request.AddFile(item.Key, item.Value);
+        }
+
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            var data = this.Parser.Parse<TestResponse>(response.Content);
+
+            return data;
+        }
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 500)
+        {
+            // @TODO currently not possible, please create an issue at https://github.com/apioo/psx-api if needed
+            var data = new Dictionary<string, string>();
+
+            throw new MultipartException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
+    /**
+     * Test text content type
+     */
+    public async Task<TestResponse> Text(string payload)
+    {
+        Dictionary<string, object> pathParams = new();
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/text", pathParams), Method.Post);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        request.AddParameter("text/plain", payload, ParameterType.RequestBody);
+
+        request.AddOrUpdateHeader("Content-Type", "text/plain");
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            var data = this.Parser.Parse<TestResponse>(response.Content);
+
+            return data;
+        }
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 500)
+        {
+            var data = response.Content;
+
+            throw new TextException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
+    }
+    /**
+     * Test xml content type
+     */
+    public async Task<TestResponse> Xml(string payload)
+    {
+        Dictionary<string, object> pathParams = new();
+
+        Dictionary<string, object> queryParams = new();
+
+        List<string> queryStructNames = new();
+
+        RestRequest request = new(this.Parser.Url("/anything/xml", pathParams), Method.Post);
+        this.Parser.Query(request, queryParams, queryStructNames);
+        request.AddParameter("application/xml", payload, ParameterType.RequestBody);
+
+        request.AddOrUpdateHeader("Content-Type", "application/xml");
+
+        RestResponse response = await this.HttpClient.ExecuteAsync(request);
+
+        if (response.IsSuccessful)
+        {
+            var data = this.Parser.Parse<TestResponse>(response.Content);
+
+            return data;
+        }
+
+        var statusCode = (int) response.StatusCode;
+        if (statusCode == 500)
+        {
+            var data = response.Content;
+
+            throw new XmlException(data);
+        }
+
+        throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
     }
 
 
