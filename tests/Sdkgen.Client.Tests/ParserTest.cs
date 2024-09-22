@@ -23,25 +23,24 @@ public class ParserTest
     {
         Parser parser = new Parser("https://api.acme.com/");
 
-        Assert.AreEqual("https://api.acme.com/foo/bar", parser.Url("/foo/bar", new Dictionary<string, object>()));
-        Assert.AreEqual("https://api.acme.com/foo/foo", parser.Url("/foo/:bar", this.NewMap("bar", "foo")));
-        Assert.AreEqual("https://api.acme.com/foo/foo", parser.Url("/foo/$bar<[0-9]+>", this.NewMap("bar", "foo")));
-        Assert.AreEqual("https://api.acme.com/foo/foo", parser.Url("/foo/$bar", this.NewMap("bar", "foo")));
-        Assert.AreEqual("https://api.acme.com/foo/foo", parser.Url("/foo/{bar}", this.NewMap("bar", "foo")));
-        Assert.AreEqual("https://api.acme.com/foo/foo/bar", parser.Url("/foo/{bar}/bar", this.NewMap("bar", "foo")));
-        Assert.AreEqual("https://api.acme.com/foo/foo/bar", parser.Url("/foo/$bar<[0-9]+>/bar", this.NewMap("bar", "foo")));
-        Assert.AreEqual("https://api.acme.com/foo/foo/bar", parser.Url("/foo/$bar/bar", this.NewMap("bar", "foo")));
-        Assert.AreEqual("https://api.acme.com/foo/foo/bar", parser.Url("/foo/{bar}/bar", this.NewMap("bar", "foo")));
-
-        Assert.AreEqual("https://api.acme.com/foo/", parser.Url("/foo/{bar}", this.NewMap("bar", null)));
-        Assert.AreEqual("https://api.acme.com/foo/1337", parser.Url("/foo/{bar}", this.NewMap("bar", 1337)));
-        Assert.AreEqual("https://api.acme.com/foo/13.37", parser.Url("/foo/{bar}", this.NewMap("bar", 13.37)));
-        Assert.AreEqual("https://api.acme.com/foo/1", parser.Url("/foo/{bar}", this.NewMap("bar", true)));
-        Assert.AreEqual("https://api.acme.com/foo/0", parser.Url("/foo/{bar}", this.NewMap("bar", false)));
-        Assert.AreEqual("https://api.acme.com/foo/foo", parser.Url("/foo/{bar}", this.NewMap("bar", "foo")));
-        Assert.AreEqual("https://api.acme.com/foo/2023-02-21", parser.Url("/foo/{bar}", this.NewMap("bar", new DateOnly(2023, 2, 21))));
-        Assert.AreEqual("https://api.acme.com/foo/2023-02-21T19:19:00Z", parser.Url("/foo/{bar}", this.NewMap("bar", new DateTime(2023, 2, 21, 19, 19, 0, DateTimeKind.Utc))));
-        Assert.AreEqual("https://api.acme.com/foo/19:19:00", parser.Url("/foo/{bar}", this.NewMap("bar", new TimeOnly(19, 19, 0))));
+        Assert.That(parser.Url("/foo/bar", new Dictionary<string, object>()), Is.EqualTo("https://api.acme.com/foo/bar"));
+        Assert.That(parser.Url("/foo/:bar", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo"));
+        Assert.That(parser.Url("/foo/$bar<[0-9]+>", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo"));
+        Assert.That(parser.Url("/foo/$bar", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo"));
+        Assert.That(parser.Url("/foo/{bar}/bar", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo/bar"));
+        Assert.That(parser.Url("/foo/$bar<[0-9]+>/bar", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo/bar"));
+        Assert.That(parser.Url("/foo/$bar/bar", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo/bar"));
+        Assert.That(parser.Url("/foo/{bar}/bar", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo/bar"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", null)), Is.EqualTo("https://api.acme.com/foo/"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", 1337)), Is.EqualTo("https://api.acme.com/foo/1337"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", 13.37)), Is.EqualTo("https://api.acme.com/foo/13.37"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", true)), Is.EqualTo("https://api.acme.com/foo/1"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", false)), Is.EqualTo("https://api.acme.com/foo/0"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", new DateOnly(2023, 2, 21))), Is.EqualTo("https://api.acme.com/foo/2023-02-21"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", new DateTime(2023, 2, 21, 19, 19, 0, DateTimeKind.Utc))), Is.EqualTo("https://api.acme.com/foo/2023-02-21T19:19:00Z"));
+        Assert.That(parser.Url("/foo/{bar}", this.NewMap("bar", new TimeOnly(19, 19, 0))), Is.EqualTo("https://api.acme.com/foo/19:19:00"));
     }
 
     [Test]
