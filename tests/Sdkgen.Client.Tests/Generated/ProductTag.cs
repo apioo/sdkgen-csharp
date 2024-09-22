@@ -222,7 +222,9 @@ public class ProductTag : TagAbstract {
 
         RestRequest request = new(this.Parser.Url("/anything/form", pathParams), Method.Post);
         this.Parser.Query(request, queryParams, queryStructNames);
-        request.AddParameter("application/x-www-form-urlencoded", payload.ToString(), ParameterType.RequestBody);
+        var postValues = System.Web.HttpUtility.ParseQueryString("");
+        postValues.Add(payload);
+        request.AddParameter("application/x-www-form-urlencoded", postValues.ToString(), ParameterType.RequestBody);
 
         request.AddOrUpdateHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -284,7 +286,7 @@ public class ProductTag : TagAbstract {
     /**
      * Test json content type
      */
-    public async Task<TestResponse> Multipart(System.Collections.Generic.Dictionary<string, string> payload)
+    public async Task<TestResponse> Multipart(Sdkgen.Client.Multipart payload)
     {
         Dictionary<string, object> pathParams = new();
 
@@ -294,9 +296,20 @@ public class ProductTag : TagAbstract {
 
         RestRequest request = new(this.Parser.Url("/anything/multipart", pathParams), Method.Post);
         this.Parser.Query(request, queryParams, queryStructNames);
-        foreach(var item in payload)
+        foreach(KeyValuePair<string, Multipart.Part> part in payload.GetParts())
         {
-            request.AddFile(item.Key, item.Value);
+            if (part.Value.Path != null)
+            {
+                request.AddFile(part.Key, part.Value.Path, part.Value.ContentType, part.Value.Options);
+            }
+            else if (part.Value.Bytes != null)
+            {
+                request.AddFile(part.Key, part.Value.Bytes, part.Value.FileName, part.Value.ContentType, part.Value.Options);
+            }
+            else if (part.Value.GetFile != null)
+            {
+                request.AddFile(part.Key, part.Value.GetFile, part.Value.FileName, part.Value.ContentType, part.Value.Options);
+            }
         }
 
 
@@ -313,7 +326,7 @@ public class ProductTag : TagAbstract {
         if (statusCode == 500)
         {
             // @TODO currently not possible, please create an issue at https://github.com/apioo/psx-api if needed
-            var data = new Dictionary<string, string>();
+            var data = new Multipart();
 
             throw new MultipartException(data);
         }

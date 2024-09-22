@@ -10,9 +10,9 @@ namespace Sdkgen.Client.Tests.Generated;
 
 public class MultipartException : KnownStatusCodeException
 {
-    public System.Collections.Generic.Dictionary<string, string> Payload;
+    public Sdkgen.Client.Multipart Payload;
 
-    public MultipartException(System.Collections.Generic.Dictionary<string, string> payload)
+    public MultipartException(Sdkgen.Client.Multipart payload)
     {
         this.Payload = payload;
     }

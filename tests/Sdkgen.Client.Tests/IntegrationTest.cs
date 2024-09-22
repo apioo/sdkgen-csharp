@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Sdkgen.Client.Tests.Generated;
+using System.Web;
+using System.IO;
 
 namespace Sdkgen.Client.Tests;
 
@@ -103,6 +105,86 @@ public class IntegrationTest
         Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
         Assert.That(response.Method, Is.EqualTo("DELETE"));
         Assert.That(response.Args.Count, Is.EqualTo(0));
+    }
+
+    [Test]
+    public async Task TestClientBinary()
+    {
+        Generated.Client client = Generated.Client.Build("my_token");
+
+        var payload = new byte[] {0x66, 0x6F, 0x6F, 0x62, 0x61, 0x72};
+
+        TestResponse response = await client.Product().Binary(payload);
+
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("POST"));
+        Assert.That(response.Data, Is.EqualTo("foobar"));
+    }
+
+    [Test]
+    public async Task TestClientForm()
+    {
+        Generated.Client client = Generated.Client.Build("my_token");
+
+        var payload = new System.Collections.Specialized.NameValueCollection
+        {
+            { "foo", "bar" }
+        };
+
+        TestResponse response = await client.Product().Form(payload);
+
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("POST"));
+        Assert.That(response.Form["foo"], Is.EqualTo("bar"));
+    }
+
+    [Test]
+    public async Task TestClientMultipart()
+    {
+        Generated.Client client = Generated.Client.Build("my_token");
+
+        var payload = new Multipart();
+        payload.Add("foo", new byte[] {0x66, 0x6F, 0x6F, 0x62, 0x61, 0x72}, "upload.txt");
+
+        TestResponse response = await client.Product().Multipart(payload);
+
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("POST"));
+        Assert.That(response.Files["foo"], Is.EqualTo("foobar"));
+    }
+
+    [Test]
+    public async Task TestClientText()
+    {
+        Generated.Client client = Generated.Client.Build("my_token");
+
+        TestResponse response = await client.Product().Text("foobar");
+
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("POST"));
+        Assert.That(response.Data, Is.EqualTo("foobar"));
+    }
+
+    [Test]
+    public async Task TestClientXml()
+    {
+        Generated.Client client = Generated.Client.Build("my_token");
+
+        TestResponse response = await client.Product().Text("<foo>bar</foo>");
+
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("POST"));
+        Assert.That(response.Data, Is.EqualTo("<foo>bar</foo>"));
     }
 
     public TestRequest NewPayload() {
