@@ -22,7 +22,7 @@ public class AccessTokenTest
         var payload = "{\"access_token\": \"my_token\", \"token_type\": \"bearer\"}";
         AccessToken token = JsonSerializer.Deserialize<AccessToken>(payload);
 
-        Assert.AreEqual("my_token", token.Token);
-        Assert.AreEqual("bearer", token.TokenType);
+        Assert.That(token.Token, Is.EqualTo("my_token"));
+        Assert.That(token.TokenType, Is.EqualTo("bearer"));
     }
 }

@@ -12,6 +12,7 @@ using System;
 using System.Net.Sockets;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using NUnit.Framework;
 using Sdkgen.Client.Tests.Generated;
 
@@ -22,7 +23,7 @@ public class IntegrationTest
     [SetUp]
     public void SetUp()
     {
-        Assert.IsTrue(this.PortIsOpen());
+        Assert.That(this.PortIsOpen(), Is.True);
     }
 
     [Test]
@@ -32,14 +33,14 @@ public class IntegrationTest
 
         TestResponse response = await client.Product().GetAll(8, 16, "foobar");
 
-        Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
-        Assert.AreEqual("application/json", response.Headers["Accept"]);
-        Assert.AreEqual("SDKgen Client v1.0", response.Headers["User-Agent"]);
-        Assert.AreEqual("GET", response.Method);
-        Assert.AreEqual("8", response.Args["startIndex"]);
-        Assert.AreEqual("16", response.Args["count"]);
-        Assert.AreEqual("foobar", response.Args["search"]);
-        Assert.IsNull(response.Json);
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("GET"));
+        Assert.That(response.Args["startIndex"], Is.EqualTo("8"));
+        Assert.That(response.Args["count"], Is.EqualTo("16"));
+        Assert.That(response.Args["search"], Is.EqualTo("foobar"));
+        Assert.That(response.Json, Is.Null);
     }
 
     [Test]
@@ -50,11 +51,11 @@ public class IntegrationTest
         TestRequest payload = this.NewPayload();
         TestResponse response = await client.Product().Create(payload);
 
-        Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
-        Assert.AreEqual("application/json", response.Headers["Accept"]);
-        Assert.AreEqual("SDKgen Client v1.0", response.Headers["User-Agent"]);
-        Assert.AreEqual("POST", response.Method);
-        Assert.AreEqual(0, response.Args.Count);
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("POST"));
+        Assert.That(response.Args.Count, Is.EqualTo(0));
         //Assert.AreEqual(JsonSerializer.Serialize(payload), JsonSerializer.Serialize(response.Json));
     }
 
@@ -66,11 +67,11 @@ public class IntegrationTest
         TestRequest payload = this.NewPayload();
         TestResponse response = await client.Product().Update(1, payload);
 
-        Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
-        Assert.AreEqual("application/json", response.Headers["Accept"]);
-        Assert.AreEqual("SDKgen Client v1.0", response.Headers["User-Agent"]);
-        Assert.AreEqual("PUT", response.Method);
-        Assert.AreEqual(0, response.Args.Count);
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("PUT"));
+        Assert.That(response.Args.Count, Is.EqualTo(0));
         //Assert.AreEqual(JsonSerializer.Serialize(payload), JsonSerializer.Serialize(response.Json));
     }
 
@@ -82,11 +83,11 @@ public class IntegrationTest
         TestRequest payload = this.NewPayload();
         TestResponse response = await client.Product().Patch(1, payload);
 
-        Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
-        Assert.AreEqual("application/json", response.Headers["Accept"]);
-        Assert.AreEqual("SDKgen Client v1.0", response.Headers["User-Agent"]);
-        Assert.AreEqual("PATCH", response.Method);
-        Assert.AreEqual(0, response.Args.Count);
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("PATCH"));
+        Assert.That(response.Args.Count, Is.EqualTo(0));
         //Assert.AreEqual(JsonSerializer.Serialize(payload), JsonSerializer.Serialize(response.Json));
     }
 
@@ -97,11 +98,11 @@ public class IntegrationTest
 
         TestResponse response = await client.Product().Delete(1);
 
-        Assert.AreEqual("Bearer my_token", response.Headers["Authorization"]);
-        Assert.AreEqual("application/json", response.Headers["Accept"]);
-        Assert.AreEqual("SDKgen Client v1.0", response.Headers["User-Agent"]);
-        Assert.AreEqual("DELETE", response.Method);
-        Assert.AreEqual(0, response.Args.Count);
+        Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
+        Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v1.0"));
+        Assert.That(response.Method, Is.EqualTo("DELETE"));
+        Assert.That(response.Args.Count, Is.EqualTo(0));
     }
 
     public TestRequest NewPayload() {
@@ -122,14 +123,22 @@ public class IntegrationTest
         mapObject.Add("foo", objectFoo);
         mapObject.Add("bar", objectBar);
 
-        string[] arrayScalar = {"foo", "bar"};
-        TestObject[] arrayObject = {objectFoo, objectBar};
+        List<string> arrayScalar = new List<string>();
+        arrayScalar.Add("foo");
+        arrayScalar.Add("bar");
+
+        List<TestObject> arrayObject = new List<TestObject>();
+        arrayObject.Add(objectFoo);
+        arrayObject.Add(objectBar);
 
         TestRequest payload = new TestRequest();
         payload.Int = 1337;
         payload.Float = (float) 13.37;
         payload.String = "foobar";
         payload.Bool = true;
+        payload.DateString = new DateOnly(2024, 9, 22);
+        payload.DateTimeString = new DateTime(2024, 9, 22, 10, 9, 0);
+        payload.TimeString = new TimeOnly(10, 9, 0);
         payload.ArrayScalar = arrayScalar;
         payload.ArrayObject = arrayObject;
         payload.MapScalar = mapScalar;

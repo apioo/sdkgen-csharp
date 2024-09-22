@@ -68,24 +68,24 @@ public class ParserTest
         parser.Query(request, map, new List<string>(){"args"});
 
         var queryParams = new List<Parameter>(request.Parameters);
-        Assert.AreEqual("int", queryParams[0].Name);
-        Assert.AreEqual("1337", queryParams[0].Value);
-        Assert.AreEqual("float", queryParams[1].Name);
-        Assert.AreEqual("13.37", queryParams[1].Value);
-        Assert.AreEqual("true", queryParams[2].Name);
-        Assert.AreEqual("1", queryParams[2].Value);
-        Assert.AreEqual("false", queryParams[3].Name);
-        Assert.AreEqual("0", queryParams[3].Value);
-        Assert.AreEqual("string", queryParams[4].Name);
-        Assert.AreEqual("foo", queryParams[4].Value);
-        Assert.AreEqual("date", queryParams[5].Name);
-        Assert.AreEqual("2023-02-21", queryParams[5].Value);
-        Assert.AreEqual("datetime", queryParams[6].Name);
-        Assert.AreEqual("2023-02-21T19:19:00Z", queryParams[6].Value);
-        Assert.AreEqual("time", queryParams[7].Name);
-        Assert.AreEqual("19:19:00", queryParams[7].Value);
-        Assert.AreEqual("name", queryParams[8].Name);
-        Assert.AreEqual("foo", queryParams[8].Value);
+        Assert.That(queryParams[0].Name, Is.EqualTo("int"));
+        Assert.That(queryParams[0].Value, Is.EqualTo("1337"));
+        Assert.That(queryParams[1].Name, Is.EqualTo("float"));
+        Assert.That(queryParams[1].Value, Is.EqualTo("13.37"));
+        Assert.That(queryParams[2].Name, Is.EqualTo("true"));
+        Assert.That(queryParams[2].Value, Is.EqualTo("1"));
+        Assert.That(queryParams[3].Name, Is.EqualTo("false"));
+        Assert.That(queryParams[3].Value, Is.EqualTo("0"));
+        Assert.That(queryParams[4].Name, Is.EqualTo("string"));
+        Assert.That(queryParams[4].Value, Is.EqualTo("foo"));
+        Assert.That(queryParams[5].Name, Is.EqualTo("date"));
+        Assert.That(queryParams[5].Value, Is.EqualTo("2023-02-21"));
+        Assert.That(queryParams[6].Name, Is.EqualTo("datetime"));
+        Assert.That(queryParams[6].Value, Is.EqualTo("2023-02-21T19:19:00Z"));
+        Assert.That(queryParams[7].Name, Is.EqualTo("time"));
+        Assert.That(queryParams[7].Value, Is.EqualTo("19:19:00"));
+        Assert.That(queryParams[8].Name, Is.EqualTo("name"));
+        Assert.That(queryParams[8].Value, Is.EqualTo("foo"));
     }
     
     private Dictionary<string, object> NewMap(string key, object value) {
