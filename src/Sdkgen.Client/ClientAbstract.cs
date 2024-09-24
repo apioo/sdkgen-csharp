@@ -14,7 +14,7 @@ namespace Sdkgen.Client;
 
 abstract public class ClientAbstract
 {
-    public const string USER_AGENT = "SDKgen Client v1.0";
+    public const string USER_AGENT = "SDKgen Client v2.0";
 
     protected readonly IAuthenticator Authenticator;
     protected readonly RestClient HttpClient;
