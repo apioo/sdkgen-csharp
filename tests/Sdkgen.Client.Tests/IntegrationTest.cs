@@ -37,7 +37,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("GET"));
         Assert.That(response.Args["startIndex"], Is.EqualTo("8"));
         Assert.That(response.Args["count"], Is.EqualTo("16"));
@@ -55,7 +55,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("POST"));
         Assert.That(response.Args.Count, Is.EqualTo(0));
         //Assert.AreEqual(JsonSerializer.Serialize(payload), JsonSerializer.Serialize(response.Json));
@@ -71,7 +71,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("PUT"));
         Assert.That(response.Args.Count, Is.EqualTo(0));
         //Assert.AreEqual(JsonSerializer.Serialize(payload), JsonSerializer.Serialize(response.Json));
@@ -87,7 +87,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("PATCH"));
         Assert.That(response.Args.Count, Is.EqualTo(0));
         //Assert.AreEqual(JsonSerializer.Serialize(payload), JsonSerializer.Serialize(response.Json));
@@ -102,7 +102,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("DELETE"));
         Assert.That(response.Args.Count, Is.EqualTo(0));
     }
@@ -118,7 +118,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("POST"));
         Assert.That(response.Data, Is.EqualTo("foobar"));
     }
@@ -137,7 +137,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("POST"));
         Assert.That(response.Form["foo"], Is.EqualTo("bar"));
     }
@@ -156,7 +156,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("POST"));
         Assert.That(response.Json.String, Is.EqualTo("bar"));
     }
@@ -173,7 +173,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("POST"));
         Assert.That(response.Files["foo"], Is.EqualTo("foobar"));
     }
@@ -187,7 +187,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("POST"));
         Assert.That(response.Data, Is.EqualTo("foobar"));
     }
@@ -201,7 +201,7 @@ public class IntegrationTest
 
         Assert.That(response.Headers["Authorization"], Is.EqualTo("Bearer my_token"));
         Assert.That(response.Headers["Accept"], Is.EqualTo("application/json"));
-        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen Client v2.0"));
+        Assert.That(response.Headers["User-Agent"], Is.EqualTo("SDKgen/0.1.0"));
         Assert.That(response.Method, Is.EqualTo("POST"));
         Assert.That(response.Data, Is.EqualTo("<foo>bar</foo>"));
     }

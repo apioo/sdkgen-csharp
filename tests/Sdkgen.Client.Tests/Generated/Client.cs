@@ -16,7 +16,7 @@ namespace Sdkgen.Client.Tests.Generated;
 
 public class Client : ClientAbstract
 {
-    public Client(string baseUrl, ICredentials credentials) : base(baseUrl, credentials)
+    public Client(string baseUrl, ICredentials credentials, string? version = null) : base(baseUrl, credentials, version)
     {
     }
 
@@ -32,7 +32,7 @@ public class Client : ClientAbstract
 
     public static Client Build(string token)
     {
-        return new Client("http://127.0.0.1:8081", new HttpBearer(token));
+        return new Client("http://127.0.0.1:8081", new HttpBearer(token), "0.1.0");
     }
 
     public static Client BuildAnonymous()

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <PackageId>Sdkgen.Client</PackageId>
-    <PackageVersion>2.0.1</PackageVersion>
+    <PackageVersion>2.0.2</PackageVersion>
     <Authors>chriskapp</Authors>
     <Company>Apioo</Company>
     <Description>SDKgen is a powerful code generator to automatically build client SDKs for your REST API</Description>
