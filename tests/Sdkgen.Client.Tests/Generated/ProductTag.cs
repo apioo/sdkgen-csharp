@@ -24,9 +24,9 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> GetAll(int startIndex, int count, string search)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
         queryParams.Add("startIndex", startIndex);
         queryParams.Add("count", count);
         queryParams.Add("search", search);
@@ -54,9 +54,9 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Create(TestRequest payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -90,10 +90,10 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Update(int id, TestRequest payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
         pathParams.Add("id", id);
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -120,10 +120,10 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Patch(int id, TestRequest payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
         pathParams.Add("id", id);
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -150,10 +150,10 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Delete(int id)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
         pathParams.Add("id", id);
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -178,9 +178,9 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Binary(byte[] payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -214,9 +214,9 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Form(System.Collections.Specialized.NameValueCollection payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -252,9 +252,9 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Json(object payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -276,7 +276,7 @@ public class ProductTag : TagAbstract {
         var statusCode = (int) response.StatusCode;
         if (statusCode == 500)
         {
-            var data = System.Text.Json.JsonSerializer.Deserialize<object>(response.Content);
+            var data = System.Text.Json.JsonSerializer.Deserialize<object>(response.Content ?? "");
 
             throw new JsonException(data);
         }
@@ -288,9 +288,9 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Multipart(Sdkgen.Client.Multipart payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -338,9 +338,9 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Text(string payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -364,7 +364,7 @@ public class ProductTag : TagAbstract {
         {
             var data = response.Content;
 
-            throw new TextException(data);
+            throw new TextException(data ?? "");
         }
 
         throw new UnknownStatusCodeException("The server returned an unknown status code: " + statusCode);
@@ -374,9 +374,9 @@ public class ProductTag : TagAbstract {
      */
     public async Task<TestResponse> Xml(string payload)
     {
-        Dictionary<string, object> pathParams = new();
+        Dictionary<string, object?> pathParams = new();
 
-        Dictionary<string, object> queryParams = new();
+        Dictionary<string, object?> queryParams = new();
 
         List<string> queryStructNames = new();
 
@@ -398,7 +398,7 @@ public class ProductTag : TagAbstract {
         var statusCode = (int) response.StatusCode;
         if (statusCode == 500)
         {
-            var data = response.Content;
+            var data = response.Content ?? "";
 
             throw new XmlException(data);
         }
