@@ -23,7 +23,7 @@ public class ParserTest
     {
         Parser parser = new Parser("https://api.acme.com/");
 
-        Assert.That(parser.Url("/foo/bar", new Dictionary<string, object>()), Is.EqualTo("https://api.acme.com/foo/bar"));
+        Assert.That(parser.Url("/foo/bar", new Dictionary<string, object?>()), Is.EqualTo("https://api.acme.com/foo/bar"));
         Assert.That(parser.Url("/foo/:bar", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo"));
         Assert.That(parser.Url("/foo/$bar<[0-9]+>", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo"));
         Assert.That(parser.Url("/foo/$bar", this.NewMap("bar", "foo")), Is.EqualTo("https://api.acme.com/foo/foo"));
@@ -51,7 +51,7 @@ public class ParserTest
         TestObject test = new TestObject();
         test.Name = "foo";
 
-        Dictionary<string, object> map = new Dictionary<string, object>();
+        Dictionary<string, object?> map = new();
         map.Add("null", null);
         map.Add("int", 1337);
         map.Add("float", 13.37);
@@ -88,7 +88,7 @@ public class ParserTest
     }
     
     private Dictionary<string, object?> NewMap(string key, object? value) {
-        Dictionary<string, object?> map = new Dictionary<string, object?>();
+        Dictionary<string, object?> map = new();
         map.Add(key, value);
         return map;
     }
