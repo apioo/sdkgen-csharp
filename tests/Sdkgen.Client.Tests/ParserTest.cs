@@ -87,8 +87,8 @@ public class ParserTest
         Assert.That(queryParams[8].Value, Is.EqualTo("foo"));
     }
     
-    private Dictionary<string, object> NewMap(string key, object value) {
-        Dictionary<string, object> map = new Dictionary<string, object>();
+    private Dictionary<string, object?> NewMap(string key, object? value) {
+        Dictionary<string, object?> map = new Dictionary<string, object?>();
         map.Add(key, value);
         return map;
     }

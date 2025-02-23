@@ -20,9 +20,9 @@ public class AccessTokenTest
     public async Task TestParse()
     {
         var payload = "{\"access_token\": \"my_token\", \"token_type\": \"bearer\"}";
-        AccessToken token = JsonSerializer.Deserialize<AccessToken>(payload);
+        AccessToken? token = JsonSerializer.Deserialize<AccessToken>(payload);
 
-        Assert.That(token.Token, Is.EqualTo("my_token"));
-        Assert.That(token.TokenType, Is.EqualTo("bearer"));
+        Assert.That(token?.Token, Is.EqualTo("my_token"));
+        Assert.That(token?.TokenType, Is.EqualTo("bearer"));
     }
 }

@@ -26,35 +26,43 @@ public class Parser
         this._baseUrl = this.NormalizeBaseUrl(baseUrl);
     }
 
-    public string Url(string path, IReadOnlyDictionary<string, object> parameters)
+    public string Url(string path, IReadOnlyDictionary<string, object?> parameters)
     {
         return this._baseUrl + "/" + this.SubstituteParameters(path, parameters);
     }
 
-    public void Query(RestRequest request, IReadOnlyDictionary<string, object> parameters)
+    public void Query(RestRequest request, IReadOnlyDictionary<string, object?> parameters)
     {
         this.Query(request, parameters, new List<string>());
     }
 
-    public void Query(RestRequest request, IReadOnlyDictionary<string, object> parameters, List<string> structNames)
+    public void Query(RestRequest request, IReadOnlyDictionary<string, object?> parameters, List<string> structNames)
     {
-        foreach (KeyValuePair<string, object> entry in parameters)
+        foreach (KeyValuePair<string, object?> entry in parameters)
         {
-            if (entry.Value == null)
+            if (entry.Value is null)
             {
                 continue;
             }
 
             if (structNames.Contains(entry.Key))
             {
-                if (entry.Value is object)
-                {
-                    Dictionary<string, object> nestedProperties = entry.Value.GetType()
-                        .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                        .ToDictionary(prop => prop.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name, prop => prop.GetValue(entry.Value, null));
+                Dictionary<string, object?> nestedProperties = new();
+                var properties = entry.Value.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
-                    this.Query(request, nestedProperties);
+                foreach (var propertyInfo in properties)
+                {
+                    var name = propertyInfo.GetCustomAttribute<JsonPropertyNameAttribute>()?.Name;
+                    var value = propertyInfo.GetValue(entry.Value, null);
+
+                    if (name is null) {
+                        continue;
+                    }
+
+                    nestedProperties.Add(name, value);
                 }
+
+                this.Query(request, nestedProperties);
             }
             else
             {
@@ -86,7 +94,7 @@ public class Parser
         }
     }
 
-    private string SubstituteParameters(string path, IReadOnlyDictionary<string, object> parameters)
+    private string SubstituteParameters(string path, IReadOnlyDictionary<string, object?> parameters)
     {
         string[] parts = path.Split("/");
         List<string> result = new List<string>();
@@ -126,9 +134,13 @@ public class Parser
         return string.Join("/", result);
     }
 
-    private string ToString(object value)
+    private string ToString(object? value)
     {
-        if (value is string)
+        if (value is null)
+        {
+            return "";
+        }
+        else if (value is string)
         {
             return value.ToString() ?? "";
         }
