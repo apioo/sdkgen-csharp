@@ -27,6 +27,10 @@ abstract public class ClientAbstract
         this.Parser = new Parser(baseUrl);
     }
 
+    public ClientAbstract(string baseUrl, ICredentials credentials): this(baseUrl, credentials, null)
+    {
+    }
+
     public IAuthenticator GetAuthenticator()
     {
         return this.Authenticator;
